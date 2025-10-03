@@ -1,0 +1,15 @@
+{
+  "is-main": true,
+  "import": [
+    "moonbitlang/ulex/type",
+    "moonbitlang/ulex/parser",
+    "moonbitlang/ulex/codegen",
+    "Yoorkin/ArgParser",
+    "moonbitlang/x/sys",
+    "moonbitlang/x/fs",
+    "moonbitlang/ulex/main/util",
+    "moonbitlang/ulex/regex"
+  ],
+  "bin-name": "moonlex",
+  "bin-target": "js"
+}
