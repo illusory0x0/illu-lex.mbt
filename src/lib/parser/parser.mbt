@@ -348,11 +348,11 @@ fn yy_action_15(_last_pos : Int, _args : ArrayView[(YYObj, Int, Int)]) -> YYObj 
 }
 
 // file:///./parser.mbty
-// 91|    rule_item rule_item_list            { ctx => @list.construct($1(ctx), $2(ctx)) }
+// 91|    rule_item rule_item_list            { ctx => @list.cons($1(ctx), $2(ctx)) }
 fn yy_action_16(_last_pos : Int, _args : ArrayView[(YYObj, Int, Int)]) -> YYObj {
   guard _args[0].0 is YYObj__Context_______type_Regex__String____type_CodeBlock_(_dollar1)
   guard _args[1].0 is YYObj__Context______list_List___type_Regex__String____type_CodeBlock__(_dollar2)
-  YYObj__Context______list_List___type_Regex__String____type_CodeBlock__({();  ctx => @list.construct(_dollar1(ctx), _dollar2(ctx)) })
+  YYObj__Context______list_List___type_Regex__String____type_CodeBlock__({();  ctx => @list.cons(_dollar1(ctx), _dollar2(ctx)) })
 }
 
 // file:///./parser.mbty
@@ -369,10 +369,10 @@ fn yy_action_18(_last_pos : Int, _args : ArrayView[(YYObj, Int, Int)]) -> YYObj 
 }
 
 // file:///./parser.mbty
-// 76|    rule                                { ctx => @list.construct($1(ctx), @list.empty()) }
+// 76|    rule                                { ctx => @list.cons($1(ctx), @list.empty()) }
 fn yy_action_19(_last_pos : Int, _args : ArrayView[(YYObj, Int, Int)]) -> YYObj {
   guard _args[0].0 is YYObj__Context______type_Rule(_dollar1)
-  YYObj__Context______list_List__type_Rule_({();  ctx => @list.construct(_dollar1(ctx), @list.empty()) })
+  YYObj__Context______list_List__type_Rule_({();  ctx => @list.cons(_dollar1(ctx), @list.empty()) })
 }
 
 // file:///./parser.mbty
@@ -474,11 +474,11 @@ fn yy_action_29(_last_pos : Int, _args : ArrayView[(YYObj, Int, Int)]) -> YYObj 
 }
 
 // file:///./parser.mbty
-// 77|    rule nonempty_rule_list             { ctx => @list.construct($1(ctx), $2(ctx)) }
+// 77|    rule nonempty_rule_list             { ctx => @list.cons($1(ctx), $2(ctx)) }
 fn yy_action_30(_last_pos : Int, _args : ArrayView[(YYObj, Int, Int)]) -> YYObj {
   guard _args[0].0 is YYObj__Context______type_Rule(_dollar1)
   guard _args[1].0 is YYObj__Context______list_List__type_Rule_(_dollar2)
-  YYObj__Context______list_List__type_Rule_({();  ctx => @list.construct(_dollar1(ctx), _dollar2(ctx)) })
+  YYObj__Context______list_List__type_Rule_({();  ctx => @list.cons(_dollar1(ctx), _dollar2(ctx)) })
 }
 
 // file:///./parser.mbty
@@ -1458,7 +1458,7 @@ fn[T] yy_parse(
   start : YYState,
   return_ : (YYObj) -> T
 ) -> T raise ParseError {
-  let mut state_stack : @list.List[YYState] = @list.construct(start, @list.empty())
+  let mut state_stack : @list.List[YYState] = @list.cons(start, @list.empty())
   let data_stack : Array[(YYObj, Int, Int)] = []
   let mut last_pos = start_pos
   let mut state = start
@@ -1484,7 +1484,7 @@ fn[T] yy_parse(
       Shift(next_state) => {
         guard lookahead is Some(la)
         data_stack.push(la.1)
-        state_stack = @list.construct(next_state, state_stack)
+        state_stack = @list.cons(next_state, state_stack)
         last_shifted_state_stack = state_stack
         state = next_state
         last_pos = la.1.2
@@ -1510,7 +1510,7 @@ fn[T] yy_parse(
             match state(symbol) {
               Accept => return return_(data_stack.unsafe_pop().0)
               Shift(next_state) => {
-                state_stack = @list.construct(next_state, state_stack)
+                state_stack = @list.cons(next_state, state_stack)
                 state = next_state
               }
               Reduce(count, symbol, action)
@@ -1543,7 +1543,7 @@ fn error(stack : @list.List[YYState], token : Token, loc : (Int, Int)) -> Unit r
                 let stack = stack.drop(count)
                 guard stack is More(state, ..)
                 match state(symbol) {
-                  Shift(state) => go(@list.construct(state, stack))
+                  Shift(state) => go(@list.cons(state, stack))
                   Reduce(count, symbol, _) | ReduceNoLookahead(count, symbol, _) => inner_go(stack, count, symbol)
                   _ => panic()
                 }

@@ -81,7 +81,7 @@ pub fn[K : Hash + Eq, V] get(self : T[K, V], key : K) -> V? {
 fn[K : Eq, V] get_entry_with_hash(
   self : T[K, V],
   key : K,
-  hash : Int
+  hash : Int,
 ) -> Entry[K, V]? {
   let bucket = self.bucket
   let bitmask = self.bitmask
@@ -106,7 +106,7 @@ fn[K : Eq, V] get_entry_with_hash(
 pub fn[K : Hash + Eq, V] get_or_init(
   self : T[K, V],
   key : K,
-  init : (K) -> V
+  init : (K) -> V,
 ) -> V {
   let hash = key.hash()
   match self.get_entry_with_hash(key, hash) {
@@ -164,7 +164,7 @@ fn[K, V] put_entry(
   self : T[K, V],
   index : Int,
   bitmask : Int,
-  entry : Entry[K, V]
+  entry : Entry[K, V],
 ) -> Unit {
   let bucket = self.bucket
   for index = index, entry = entry {
