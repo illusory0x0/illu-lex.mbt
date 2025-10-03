@@ -9,8 +9,8 @@
   "readme": "README.md",
   "repository": "",
   "license": "Apache-2.0",
-  "keywords": [],
-  "description": "",
+  "keywords": ["lexer", "parser", "unicode", "regex", "moonbit"],
+  "description": "A simple lexer generator for MoonBit with Unicode support and flexible encoding options",
   "source": "src",
   "include": [
     "src",
