@@ -207,6 +207,19 @@ fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
 }
 
 ///|
+// Helper function to provide get_or_init functionality for Map
+fn[K : Hash + Eq, V] get_or_init(map : Map[K, V], key : K, init : (K) -> V) -> V {
+  match map.get(key) {
+    Some(value) => value
+    None => {
+      let value = init(key)
+      map[key] = value
+      value
+    }
+  }
+}
+
+///|
 fn DFA::from_nfa(nfa : NFA) -> DFA {
   let eps_closure = nfa.get_eps_closure()
   let initial = eps_closure[nfa.start_node]
@@ -225,9 +238,10 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     (x.0.map(fn(y) { y.0 }), x.1)
   })
   let dfa = DFA::new(captures)
-  let node_map : @hashmap2.T[State, Int] = @hashmap2.new(capacity=64)
+  let node_map : Map[State, Int] = Map::new()
+  
   fn get_id(state : State, canonicalized_state : State) -> Int {
-    node_map.get_or_init(state, fn(_key) {
+    get_or_init(node_map, state, fn(_key) {
       let node = dfa.new_node()
       dfa.register_node(nfa, node, canonicalized_state)
       node

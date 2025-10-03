@@ -6,7 +6,6 @@
     "moonbitlang/ulex/util/char_set",
     "moonbitlang/ulex/regex",
     "moonbitlang/ulex/util/bit_array",
-    "moonbitlang/ulex/util/immut_map",
-    "moonbitlang/ulex/util/hashmap2"
+    "moonbitlang/ulex/util/immut_map"
   ]
 }
